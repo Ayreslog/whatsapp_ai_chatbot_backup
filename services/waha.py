@@ -1,10 +1,9 @@
 import requests
 
-
 class Waha:
 
     def __init__(self):
-        self.__api_url = 'http://waha:3000'
+        self.__api_url = 'http://127.0.0.1:3000'  # Use o endereço IP diretamente
 
     def send_message(self, chat_id, message):
         url = f'{self.__api_url}/api/sendText'
@@ -42,11 +41,12 @@ class Waha:
             'session': 'default',
             'chatId': chat_id,
         }
-        requests.post(
+        response = requests.post(
             url=url,
             json=payload,
             headers=headers,
         )
+        response.raise_for_status()  # Adicione esta linha para levantar uma exceção se a resposta não for bem-sucedida
 
     def stop_typing(self, chat_id):
         url = f'{self.__api_url}/api/stopTyping'

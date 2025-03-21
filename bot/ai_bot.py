@@ -1,6 +1,5 @@
 import os
-
-from decouple import config
+from decouple import AutoConfig
 
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_chroma import Chroma
@@ -9,18 +8,18 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_groq import ChatGroq
 from langchain_huggingface import HuggingFaceEmbeddings
 
-
-os.environ['GROQ_API_KEY'] = config('GROQ_API_KEY')
-
+config = AutoConfig(search_path='D:/PROJETOS/whatsapp_ai_chatbot')
 
 class AIBot:
 
     def __init__(self):
-        self.__chat = ChatGroq(model='llama-3.1-70b-versatile')
+        # Atualize o modelo para um que esteja disponível e suportado
+        self.__chat = ChatGroq(model='llama-3.3-70b-versatile')
         self.__retriever = self.__build_retriever()
 
     def __build_retriever(self):
-        persist_directory = '/app/chroma_data'
+        # Atualize o caminho do diretório de persistência para um caminho relativo
+        persist_directory = './chroma_data'
         embedding = HuggingFaceEmbeddings()
 
         vector_store = Chroma(
@@ -42,11 +41,7 @@ class AIBot:
     def invoke(self, history_messages, question):
         SYSTEM_TEMPLATE = '''
         Responda as perguntas dos usuários com base no contexto abaixo.
-        Você é um assistente especializado em tirar dúvidas sobre o treinamento Django Master da PycodeBR.
-        Tire dúvidas dos possíveis alunos que entrarem em contato.
-        Responda de forma natural, agradável e respeitosa. Seja objetivo nas respostas, com informações
-        claras e diretas. Foque em ser natural e humanizado, como um diálogo comum entre duas pessoas.
-        Leve em consideração também o histórico de mensagens da conversa com o usuário.
+        Você é um assistente especializado em responder mensagem do Whats.
         Responda sempre em português brasileiro.
 
         <context>

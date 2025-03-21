@@ -1,6 +1,7 @@
 import os
 
-from decouple import config
+#from decouple import config
+from decouple import AutoConfig
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
@@ -8,8 +9,9 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_huggingface import HuggingFaceEmbeddings
 
 
-os.environ['GROQ_API_KEY'] = config('GROQ_API_KEY')
-os.environ['HUGGINGFACE_API_KEY'] = config('HUGGINGFACE_API_KEY')
+#os.environ['GROQ_API_KEY'] = config('GROQ_API_KEY')
+#os.environ['HUGGINGFACE_API_KEY'] = config('HUGGINGFACE_API_KEY')
+config = AutoConfig(search_path='D:/PROJETOS/whatsapp_ai_chatbot')
 
 
 if __name__ == '__main__':
